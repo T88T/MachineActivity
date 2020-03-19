@@ -1,0 +1,40 @@
+Stockage des données :
+{
+    La motivation principale est de se séparer de Google et des relocaliser le stockage des données. On exclueras donc toutes solutions de stockage sur serveur distant.
+    Q : Quid du serveur 1&1 d'hébergement du site ? --> On installe notre site sur un rasp sur panneau solaire + batterie ?
+
+    Format de stockage : Choix --> Base de donnée SQL
+    {
+        Le format de stockage des données peut prendre plusieurs formes :
+            1 - Fichiers JSON (Utilisateurs, Activité Machine)
+                Avantages :
+                    Facile à intégrer et indépendant de n'importe quel processus
+                    Humain friendly
+
+                Inconvénients :
+                    Vite volumineux
+                    Moins de fonctionalités disponible / SQL
+                    Fort risque de perte d'information
+
+            2 -Base de données SQL
+                Avantages :
+                    Fait pour stocker de la donnée
+                    Gère les accès concurentiel
+                    Très répandu et épprouvé
+                    Fonctionnalités d'édition et de lecture avancées
+
+                Inconvénients :
+                    Nécessite un serveur local
+                    Pas Humain friendly
+                    Moins facile à implémenter (#pourmoimaisjevaisapprendre)
+    }
+
+    Implémentation : SQLite BDD
+    {
+        Une solution qui semble rapidement accessible et qui remplit les éxigences semble être l'intégration de SQLite
+        Ce moteur intègre directement un serveur au binaire de l'application.
+        Le risque est qu'il n'y à pas de vérification sur l'existence du fichier BDD à la création... La vérification par le système de l'éxistence du fichier
+        semble être une solution à ce problème mais il faudrat rester vigilent surtout si le paramètre est défini par l'utilisateur.
+    }
+
+}

@@ -1,0 +1,43 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+    public:
+        MainWindow( QString Path, QWidget *parent = nullptr);
+        ~MainWindow();
+
+        bool openDB(QString Path);
+
+    public slots:
+        void ValidateEntry();
+        void ValidateUser(QString UserName);
+
+        void UserNameChanged(QString);
+        void UserLastNameChanged(QString);
+        void UserMailChanged(QString);
+        void UserPhoneChanged(QString);
+        void UserPriceCatChanged(bool);
+        void UpdateForm();
+
+    private:
+        Ui::MainWindow *ui;
+
+        QString DB_Path;
+        QSqlDatabase DB;
+
+        bool isConnected;
+
+
+};
+#endif // MAINWINDOW_H
