@@ -7,8 +7,13 @@
 #include <QSqlRelationalTableModel>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QSqlField>
+#include <QMessageBox>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDataWidgetMapper>
 #include <QFile>
+#include <QFileDialog>
 #include <QColor>
 
 #include "User.h"
@@ -23,17 +28,18 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow( QString Path, QWidget *parent = nullptr);
+        MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
+        bool loadSettings();
+        bool saveSettings();
         bool openDB(QString Path);
+        QString browseForDatabase();
 
     public slots:
         void ValidateEntry();
-        void QuantityChanged(double Qty);
-
-    private:
-        bool UserCommit(int id);
+        void UserFilter(bool State);
+        void UserChanged();
 
     private:
 
@@ -64,14 +70,17 @@ class MainWindow : public QMainWindow
                            Quantity = 4,
                            Comment = 5};
 
+    private:
+
         Ui::MainWindow *ui;
 
         QString DB_Path;
         QSqlDatabase DB;
 
         bool isConnected;
-        QDataWidgetMapper *Mapper;
+        bool UserActivityFiltering;
 
+        QDataWidgetMapper *Mapper;
         QSqlRelationalTableModel *ActivityModel;
         QSqlTableModel *ProdModel;
         QSqlTableModel *UserModel;
