@@ -38,6 +38,15 @@ void CounterDisplay::updateColor(double value)
     this->findChild<QLineEdit*>()->deselect();
 }
 
+void CounterDisplay::setColorSet(QColor pos, QColor zer, QColor neg)
+{
+    posColor = pos;
+    zerColor = zer;
+    negColor = neg;
+
+    updateColor(this->value());
+}
+
 void CounterDisplay::setPositiveColor(QColor &color)
 {
     posColor = color;

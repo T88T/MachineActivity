@@ -2,21 +2,26 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
 #include <QSqlDatabase>
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlField>
-#include <QMessageBox>
+#include <QDataWidgetMapper>
+
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QDataWidgetMapper>
+
+#include <QMessageBox>
 #include <QFile>
 #include <QFileDialog>
 #include <QColor>
+#include <QDateTime>
+#include <QCompleter>
 
-#include "User.h"
+#include "widgets/PreferencesWindow.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -31,15 +36,23 @@ class MainWindow : public QMainWindow
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
+        void openSettings();
         bool loadSettings();
         bool saveSettings();
-        bool openDB(QString Path);
+
+        void selectDatabase(QString path);
+        bool openDatabase(QString Path);
         QString browseForDatabase();
+        void loadFromDatabase();
 
     public slots:
         void ValidateEntry();
         void UserFilter(bool State);
         void UserChanged();
+
+        void applySettings();
+        void closeSettings();
+        void createMaker();
 
     private:
 
@@ -74,11 +87,17 @@ class MainWindow : public QMainWindow
 
         Ui::MainWindow *ui;
 
+        Settings mSettings;
+        PreferencesWindow *SettingsWindow;
+
         QString DB_Path;
         QSqlDatabase DB;
 
         bool isConnected;
         bool UserActivityFiltering;
+
+        QCompleter *UserCompleter;
+        QCompleter *ProductCompleter;
 
         QDataWidgetMapper *Mapper;
         QSqlRelationalTableModel *ActivityModel;

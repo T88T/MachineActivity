@@ -6,19 +6,158 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
-    <height>550</height>
+    <width>1576</width>
+    <height>553</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Activité Machine</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Ressources.qrc">
+    <normaloff>:/icons/logo_8.svg</normaloff>:/icons/logo_8.svg</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
+  <property name="iconSize">
+   <size>
+    <width>24</width>
+    <height>24</height>
+   </size>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" rowspan="2">
+    <item row="0" column="2" rowspan="5" colspan="2">
+     <widget class="QTableView" name="lst_Activity">
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="autoScroll">
+       <bool>false</bool>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderStretchLastSection">
+       <bool>false</bool>
+      </attribute>
+     </widget>
+    </item>
+    <item row="0" column="1" rowspan="3">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title">
+       <string>Utilisation et Achats</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="CounterDisplay" name="dbl_Quantity">
+         <property name="font">
+          <font>
+           <pointsize>30</pointsize>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>false</bool>
+         </property>
+         <property name="minimum">
+          <double>-99.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.250000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCommandLinkButton" name="btn_Validate">
+         <property name="text">
+          <string>Valider</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QComboBox" name="cmb_Prod">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_11">
+           <property name="font">
+            <font>
+             <pointsize>15</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Commentaire</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="ln_Comment">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0" rowspan="3">
      <widget class="QGroupBox" name="groupBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -30,19 +169,7 @@
        <string>Utilisateur</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QComboBox" name="cmb_UserName">
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-          </font>
-         </property>
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
+       <item row="1" column="2" colspan="4">
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
           <string>Passeports en poche</string>
@@ -98,8 +225,49 @@
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <widget class="QComboBox" name="cmb_UserName">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="insertPolicy">
+          <enum>QComboBox::NoInsert</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="1" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBox_3">
@@ -182,138 +350,31 @@
             </property>
            </widget>
           </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="chk_UserFilter">
+            <property name="text">
+             <string>Activité utilisateur</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="1" rowspan="2">
-     <widget class="QGroupBox" name="groupBox_5">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="title">
-       <string>Utilisation et Achats</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0">
-        <widget class="CounterDisplay" name="dbl_Quantity">
-         <property name="font">
-          <font>
-           <pointsize>30</pointsize>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="minimum">
-          <double>-99.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.250000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCommandLinkButton" name="btn_Validate">
+       <item row="0" column="5">
+        <widget class="QCommandLinkButton" name="btn_AddUser">
          <property name="text">
-          <string>Valider</string>
+          <string>Créer un Maker</string>
+         </property>
+         <property name="icon">
+          <iconset resource="Ressources.qrc">
+           <normaloff>:/icons/plus.svg</normaloff>:/icons/plus.svg</iconset>
          </property>
         </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QComboBox" name="cmb_Prod">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-          </font>
-         </property>
-         <property name="currentIndex">
-          <number>-1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QLabel" name="label_11">
-           <property name="font">
-            <font>
-             <pointsize>15</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Commentaire</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ln_Comment">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>
     </item>
-    <item row="0" column="2">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="3">
-     <widget class="QCheckBox" name="chk_UserFilter">
-      <property name="text">
-       <string>Activité utilisateur</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0" colspan="2">
+    <item row="4" column="0" rowspan="2" colspan="2">
      <widget class="QGroupBox" name="groupBox_2">
       <property name="title">
        <string>Compteurs d'heures</string>
@@ -560,51 +621,17 @@
       </layout>
      </widget>
     </item>
-    <item row="3" column="0">
-     <spacer name="verticalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
+    <item row="5" column="2" colspan="2">
+     <widget class="QCommandLinkButton" name="commandLinkButton">
+      <property name="maximumSize">
        <size>
-        <width>20</width>
-        <height>38</height>
+        <width>16777215</width>
+        <height>40</height>
        </size>
       </property>
-     </spacer>
-    </item>
-    <item row="1" column="2" rowspan="3" colspan="2">
-     <widget class="QTableView" name="lst_Activity">
-      <property name="minimumSize">
-       <size>
-        <width>400</width>
-        <height>0</height>
-       </size>
+      <property name="text">
+       <string>Connexion</string>
       </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
-      </property>
-      <property name="autoScroll">
-       <bool>false</bool>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="sortingEnabled">
-       <bool>true</bool>
-      </property>
-      <attribute name="horizontalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderStretchLastSection">
-       <bool>false</bool>
-      </attribute>
      </widget>
     </item>
    </layout>
@@ -614,28 +641,31 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1025</width>
-     <height>22</height>
+     <width>1576</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
     <property name="title">
      <string>Fichier</string>
     </property>
-    <addaction name="actionModifications_avanc_es"/>
+    <addaction name="act_AdvancedModifications"/>
     <addaction name="separator"/>
-    <addaction name="actionPr_f_rences"/>
+    <addaction name="act_Settings"/>
     <addaction name="actionQuitter"/>
    </widget>
    <addaction name="menuFichier"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionModifications_avanc_es">
+  <action name="act_AdvancedModifications">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Modifications avancées</string>
    </property>
   </action>
-  <action name="actionPr_f_rences">
+  <action name="act_Settings">
    <property name="text">
     <string>Préférences</string>
    </property>
@@ -675,7 +705,9 @@
   <tabstop>tm_Sho</tabstop>
   <tabstop>tm_Cer</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="Ressources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>chk_Plo</sender>
@@ -684,12 +716,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>346</x>
-     <y>204</y>
+     <x>465</x>
+     <y>194</y>
     </hint>
     <hint type="destinationlabel">
-     <x>81</x>
-     <y>455</y>
+     <x>100</x>
+     <y>507</y>
     </hint>
    </hints>
   </connection>
@@ -700,12 +732,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>263</x>
-     <y>230</y>
+     <x>465</x>
+     <y>220</y>
     </hint>
     <hint type="destinationlabel">
-     <x>519</x>
-     <y>343</y>
+     <x>673</x>
+     <y>394</y>
     </hint>
    </hints>
   </connection>
@@ -716,11 +748,11 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>310</x>
-     <y>249</y>
+     <x>465</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
-     <x>529</x>
+     <x>596</x>
      <y>409</y>
     </hint>
    </hints>
@@ -732,8 +764,8 @@
    <slot>UserFilter(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>944</x>
-     <y>69</y>
+     <x>109</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>744</x>
@@ -748,12 +780,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>346</x>
-     <y>182</y>
+     <x>344</x>
+     <y>154</y>
     </hint>
     <hint type="destinationlabel">
-     <x>79</x>
-     <y>396</y>
+     <x>98</x>
+     <y>450</y>
     </hint>
    </hints>
   </connection>
@@ -764,8 +796,8 @@
    <slot>ValidateEntry()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>586</x>
-     <y>263</y>
+     <x>678</x>
+     <y>265</y>
     </hint>
     <hint type="destinationlabel">
      <x>743</x>
@@ -780,12 +812,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>153</y>
+     <x>465</x>
+     <y>142</y>
     </hint>
     <hint type="destinationlabel">
-     <x>276</x>
-     <y>329</y>
+     <x>343</x>
+     <y>394</y>
     </hint>
    </hints>
   </connection>
@@ -796,12 +828,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
-     <y>182</y>
+     <x>328</x>
+     <y>154</y>
     </hint>
     <hint type="destinationlabel">
-     <x>207</x>
-     <y>390</y>
+     <x>343</x>
+     <y>450</y>
     </hint>
    </hints>
   </connection>
@@ -812,12 +844,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>344</x>
-     <y>229</y>
+     <x>465</x>
+     <y>220</y>
     </hint>
     <hint type="destinationlabel">
-     <x>349</x>
-     <y>331</y>
+     <x>508</x>
+     <y>394</y>
     </hint>
    </hints>
   </connection>
@@ -828,12 +860,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>346</x>
-     <y>154</y>
+     <x>465</x>
+     <y>142</y>
     </hint>
     <hint type="destinationlabel">
-     <x>106</x>
-     <y>332</y>
+     <x>125</x>
+     <y>394</y>
     </hint>
    </hints>
   </connection>
@@ -844,12 +876,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
-     <y>251</y>
+     <x>465</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
-     <x>360</x>
-     <y>400</y>
+     <x>508</x>
+     <y>450</y>
     </hint>
    </hints>
   </connection>
@@ -860,12 +892,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>290</x>
-     <y>202</y>
+     <x>465</x>
+     <y>194</y>
     </hint>
     <hint type="destinationlabel">
-     <x>222</x>
-     <y>455</y>
+     <x>343</x>
+     <y>507</y>
     </hint>
    </hints>
   </connection>
@@ -876,12 +908,28 @@
    <slot>UserChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>179</x>
-     <y>106</y>
+     <x>149</x>
+     <y>82</y>
     </hint>
     <hint type="destinationlabel">
      <x>396</x>
      <y>30</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_AddUser</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>createMaker()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>552</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>582</x>
+     <y>106</y>
     </hint>
    </hints>
   </connection>
@@ -890,5 +938,7 @@
   <slot>ValidateEntry()</slot>
   <slot>UserChanged()</slot>
   <slot>UserFilter(bool)</slot>
+  <slot>search(QString)</slot>
+  <slot>createMaker()</slot>
  </slots>
 </ui>

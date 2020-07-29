@@ -10,6 +10,8 @@ class CounterDisplay : public QDoubleSpinBox
     public:
         CounterDisplay(QWidget* parent = nullptr);
 
+        void setColorSet(QColor pos, QColor zer, QColor neg);
+
         void setPositiveColor(QColor &color);
         void setZeroColor(QColor &color);
         void setNegativeColor(QColor &color);
