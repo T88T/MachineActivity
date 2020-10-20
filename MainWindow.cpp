@@ -291,6 +291,13 @@ void MainWindow::ValidateEntry()
     ProdRow = ProdModel->record(ui->cmb_Prod->currentIndex());
     UserRow = UserModel->record(ui->cmb_UserName->currentIndex());
 
+    if(ProdRow.value("Name").toString() == QString(""))
+    {
+        ui->cmb_Prod->setFocus();
+        return;
+    }
+
+
     if(Quantity != 0.0)
     {
         QString Question("Voulez vous ");
@@ -344,6 +351,9 @@ void MainWindow::ValidateEntry()
 
             ActivityModel->insertRecord(-1, Activity);
             ActivityModel->select();
+
+            ui->cmb_Prod->setCurrentIndex(0);
+            ui->dbl_Quantity->setValue(0.0);
         }
     }
 
