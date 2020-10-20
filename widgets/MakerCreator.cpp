@@ -13,9 +13,9 @@ MakerCreator::MakerCreator(Maker maker, QWidget *parent) : QDialog(parent), ui(n
     this->setWindowTitle("Modification");
 
     ui->ln_UserName->setText(maker.UserName);
-    ui->ln_LastName->setText(maker.UserName);
-    ui->ln_Mail->setText(maker.UserName);
-    ui->ln_Phone->setText(maker.UserName);
+    ui->ln_LastName->setText(maker.LastName);
+    ui->ln_Mail->setText(maker.Mail);
+    ui->ln_Phone->setText(maker.Phone);
     ui->chk_PriceCat->setDown(maker.PriceCat);
 }
 
@@ -31,10 +31,6 @@ void MakerCreator::accept()
         ui->ln_UserName->setFocus(Qt::FocusReason::PopupFocusReason);
     else if(ui->ln_LastName->text().isEmpty())
         ui->ln_LastName->setFocus(Qt::FocusReason::PopupFocusReason);
-    else if(ui->ln_Mail->text().isEmpty())
-        ui->ln_Mail->setFocus(Qt::FocusReason::PopupFocusReason);
-    else if(ui->ln_Phone->text().isEmpty())
-        ui->ln_Phone->setFocus(Qt::FocusReason::PopupFocusReason);
     else
         QDialog::accept();
 }

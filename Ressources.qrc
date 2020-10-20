@@ -3,5 +3,6 @@
         <file>plus.svg</file>
         <file>logo_8.svg</file>
         <file>connect.svg</file>
+        <file>icon.ico</file>
     </qresource>
 </RCC>
