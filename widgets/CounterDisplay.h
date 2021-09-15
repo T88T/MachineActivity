@@ -20,6 +20,9 @@ class CounterDisplay : public QDoubleSpinBox
         QColor getZeroColor() const;
         QColor getNegativeColor() const;
 
+        QString textFromValue(double val) const override;
+        double valueFromText(const QString &text) const override;
+
     public slots:
         void updateColor(double value);
 

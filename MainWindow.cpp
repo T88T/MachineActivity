@@ -86,7 +86,7 @@ void MainWindow::loadFromDatabase()
     UserModel = new QSqlTableModel(this, DB);
     UserModel->setTable("Users");
     UserModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    UserModel->setSort(UserTable::id_Name, Qt::AscendingOrder);
+    UserModel->setSort(UserTable::LastName, Qt::AscendingOrder);
     UserModel->select();
 
     Mapper = new QDataWidgetMapper(this);
@@ -110,8 +110,9 @@ void MainWindow::loadFromDatabase()
     connect(ui->cmb_UserName, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), Mapper, &QDataWidgetMapper::setCurrentIndex);
 
     ui->cmb_UserName->setModel(UserModel);
+    ui->cmb_UserName->setModelColumn(UserTable::LastName);
     UserCompleter = new QCompleter(UserModel, this);
-    UserCompleter->setCompletionColumn(UserTable::id_Name);
+    UserCompleter->setCompletionColumn(UserTable::LastName);
     UserCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     UserCompleter->setCompletionMode(QCompleter::InlineCompletion);
     ui->cmb_UserName->setCompleter(UserCompleter);
@@ -327,7 +328,7 @@ void MainWindow::ValidateEntry()
             ui->tm_Cer->setValue(ui->tm_Cer->value()+ ProdRow.value("Counter_Cer").toDouble()*Quantity);
             Mapper->submit();
 
-            QSqlRecord Activity;
+            QSqlRecord Activity = ActivityModel->record();
             QSqlField Timestamp("Timestamp", QVariant::DateTime);
             QSqlField Date("Date", QVariant::Date);
             QSqlField UserName_id("UserName_id", QVariant::String);
@@ -338,6 +339,7 @@ void MainWindow::ValidateEntry()
             Timestamp.setValue(QDateTime::currentDateTime());
             Date.setValue(QDateTime::currentDateTime().toString("dd/MM/yy hh:mm"));
             UserName_id.setValue(UserRow.value("id_Name").toString());
+            UserName_id.setGenerated(true);
             Qty.setValue(Quantity);
             ProductId.setValue(ProdRow.value("id").toDouble());
             Comment.setValue(ui->ln_Comment->text());
@@ -349,7 +351,9 @@ void MainWindow::ValidateEntry()
             Activity.append(ProductId);
             Activity.append(Comment);
 
-            ActivityModel->insertRecord(-1, Activity);
+            if(!ActivityModel->insertRecord(-1, Activity))
+                QMessageBox::warning(this, "Oops..", "Impossible d'ajouter cette entrée aux activités utilisateurs...");
+
             ActivityModel->select();
 
             ui->cmb_Prod->setCurrentIndex(0);
@@ -373,7 +377,7 @@ void MainWindow::createMaker()
         return;
 
     QSqlRecord rec = UserModel->record();
-    rec.setValue("id_name", QVariant(maker.UserName + " " + maker.LastName));
+    rec.setValue("id_name", QVariant(maker.UserName + maker.LastName));
     rec.setValue("Name", QVariant(maker.UserName));
     rec.setValue("LastName",QVariant(maker.LastName));
     rec.setValue("Mail",QVariant(maker.Mail));
@@ -402,7 +406,7 @@ void MainWindow::createMaker()
 void MainWindow::UserChanged()
 {
     if(UserActivityFiltering)
-        ActivityModel->setFilter("UserName_id = '" + ui->cmb_UserName->currentText() + "'");
+        ActivityModel->setFilter("UserName_id = '" + UserModel->record(ui->cmb_UserName->currentIndex()).field(UserTable::id_Name).value().toString() + "'");
 }
 
 
@@ -411,7 +415,7 @@ void MainWindow::UserFilter(bool State)
     UserActivityFiltering = State;
 
     if(State)
-        ActivityModel->setFilter("UserName_id = '" + ui->cmb_UserName->currentText() + "'");
+        ActivityModel->setFilter("UserName_id = '" + UserModel->record(ui->cmb_UserName->currentIndex()).field(UserTable::id_Name).value().toString() + "'");
 
     else
         ActivityModel->setFilter("");

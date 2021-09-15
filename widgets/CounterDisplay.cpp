@@ -1,4 +1,6 @@
 #include "CounterDisplay.h"
+#include <qDebug>
+
 
 CounterDisplay::CounterDisplay(QWidget *parent) : QDoubleSpinBox(parent)
 {
@@ -10,6 +12,28 @@ CounterDisplay::CounterDisplay(QWidget *parent) : QDoubleSpinBox(parent)
 
 }
 
+QString CounterDisplay::textFromValue(double val) const
+{
+    double h = int(val);
+    double mn = (val - (int)val)*60;
+
+    return QString::number(h)+QString(" h ")+QString::number(abs(mn))+(abs(mn) < 10 ? QString("0") : QString(""));
+}
+
+double CounterDisplay::valueFromText(const QString &text) const
+{
+    QString value = text;
+    value.remove(QChar(' '), Qt::CaseInsensitive);
+    value.replace(QChar(','), '.', Qt::CaseInsensitive);
+
+    double temp = value.toDouble();
+    double h = (int)(temp);
+    double mn = temp - h;
+
+    qDebug() << text << temp << " " << h << " " << mn << endl;
+
+    return h+mn;
+}
 
 void CounterDisplay::updateColor(double value)
 {
