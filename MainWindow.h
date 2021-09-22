@@ -54,6 +54,9 @@ class MainWindow : public QMainWindow
         void closeSettings();
         void createMaker();
 
+        void validateCombo();
+        void validatePass();
+
     private:
 
         enum UserTable{id_Name = 0,
@@ -77,11 +80,12 @@ class MainWindow : public QMainWindow
                        ProdName = 1};
 
         enum ActivityTable{ActivityId = 0,
-                           Date = 1,
-                           User_id = 2,
-                           Product_id = 3,
+                           Timestamp = 1,
+                           Date = 2,
+                           User_id = 3,
                            Quantity = 4,
-                           Comment = 5};
+                           Product_id = 5,
+                           Comment = 6};
 
     private:
 

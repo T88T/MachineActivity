@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "iostream"
 #include <QDebug>
 #include "widgets/MakerCreator.h"
 
@@ -56,7 +57,6 @@ void MainWindow::selectDatabase(QString path)
 
 bool MainWindow::openDatabase(QString Path)
 {
-    DB.setDatabaseName(Path);
     QFileInfo file(Path);
 
     if(!file.isFile() || Path == QString(""))
@@ -65,6 +65,8 @@ bool MainWindow::openDatabase(QString Path)
         isConnected = false;
         return false;
     }
+
+    DB.setDatabaseName(Path);
 
     if (!DB.open())
     {
@@ -108,6 +110,7 @@ void MainWindow::loadFromDatabase()
     Mapper->addMapping(ui->tm_Cer, UserTable::Counter_Cer);
 
     connect(ui->cmb_UserName, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), Mapper, &QDataWidgetMapper::setCurrentIndex);
+    connect(ui->cmb_UserName->lineEdit(), &QLineEdit::returnPressed, this, &MainWindow::validateCombo);
 
     ui->cmb_UserName->setModel(UserModel);
     ui->cmb_UserName->setModelColumn(UserTable::LastName);
@@ -131,9 +134,10 @@ void MainWindow::loadFromDatabase()
 
     ActivityModel = new QSqlRelationalTableModel(this, DB);
     ActivityModel->setTable("Activity");
-    ActivityModel->setRelation(3, QSqlRelation("Users", "id_Name", "id_Name"));
+    ActivityModel->setRelation(3, QSqlRelation("Users", "id_Name", "LastName"));
     ActivityModel->setRelation(5, QSqlRelation("Products", "id", "Name"));
     ActivityModel->setSort(1, Qt::DescendingOrder);
+    ActivityModel->setJoinMode(QSqlRelationalTableModel::LeftJoin);
     ActivityModel->select();
     ui->lst_Activity->setModel(ActivityModel);
     ui->lst_Activity->hideColumn(0);
@@ -145,6 +149,11 @@ void MainWindow::loadFromDatabase()
     ActivityModel->setHeaderData(5, Qt::Horizontal, tr("Produit"));
     ActivityModel->setHeaderData(6, Qt::Horizontal, tr("Commentaire"));
     ui->lst_Activity->resizeColumnsToContents();
+
+    ui->tbl_advancedUser->setModel(UserModel);
+    ui->tbl_advancedProducts->setModel(ProdModel);
+    ui->tbl_advancedActivity->setModel(ActivityModel);
+
 }
 
 MainWindow::~MainWindow()
@@ -312,7 +321,7 @@ void MainWindow::ValidateEntry()
         Question += QString(" ");
         Question += ProdRow.value("Name").toString();
         Question += QString(" à ");
-        Question += UserRow.value("id_Name").toString();
+        Question += UserRow.value("Name").toString() + " " + UserRow.value("LastName").toString();
         Question += QString(" ?");
 
         if(QMessageBox::question(this, "Confirmation", Question, QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::StandardButton::Yes)
@@ -328,36 +337,32 @@ void MainWindow::ValidateEntry()
             ui->tm_Cer->setValue(ui->tm_Cer->value()+ ProdRow.value("Counter_Cer").toDouble()*Quantity);
             Mapper->submit();
 
-            QSqlRecord Activity = ActivityModel->record();
-            QSqlField Timestamp("Timestamp", QVariant::DateTime);
-            QSqlField Date("Date", QVariant::Date);
-            QSqlField UserName_id("UserName_id", QVariant::String);
-            QSqlField Qty("Quantity", QVariant::Double);
-            QSqlField ProductId("Product_id", QVariant::Double);
-            QSqlField Comment("Comment", QVariant::String);
+            int row = ActivityModel->rowCount()-1;
 
-            Timestamp.setValue(QDateTime::currentDateTime());
-            Date.setValue(QDateTime::currentDateTime().toString("dd/MM/yy hh:mm"));
-            UserName_id.setValue(UserRow.value("id_Name").toString());
-            UserName_id.setGenerated(true);
-            Qty.setValue(Quantity);
-            ProductId.setValue(ProdRow.value("id").toDouble());
-            Comment.setValue(ui->ln_Comment->text());
+            if(row < 0)
+                row = 0;
 
-            Activity.append(Timestamp);
-            Activity.append(Date);
-            Activity.append(UserName_id);
-            Activity.append(Qty);
-            Activity.append(ProductId);
-            Activity.append(Comment);
+            ActivityModel->insertRow(row);
 
-            if(!ActivityModel->insertRecord(-1, Activity))
+            QSqlQuery query(DB);
+
+            query.prepare("INSERT INTO Activity (Timestamp, Date, UserName_id, Quantity, Product_id, Comment) "
+                          "VALUES (?, ?, ?, ?, ?, ?)");
+            query.addBindValue(QDateTime::currentDateTime());
+            query.addBindValue(QDateTime::currentDateTime().toString("dd/MM/yy hh:mm"));
+            query.addBindValue(UserRow.value("id_Name").toInt());
+            query.addBindValue(Quantity);
+            query.addBindValue(ProdRow.value("id").toInt());
+            query.addBindValue(ui->ln_Comment->text());
+
+            if(!query.exec())
                 QMessageBox::warning(this, "Oops..", "Impossible d'ajouter cette entrée aux activités utilisateurs...");
 
             ActivityModel->select();
 
             ui->cmb_Prod->setCurrentIndex(0);
             ui->dbl_Quantity->setValue(0.0);
+            ui->ln_Comment->setText("");
         }
     }
 
@@ -401,6 +406,12 @@ void MainWindow::createMaker()
     if(!success)
         QMessageBox::information(this, "Erreur de création", "Impossible de créer le nouvel utilisateur...");
 
+}
+
+
+void MainWindow::validateCombo()
+{
+    Mapper->setCurrentIndex(ui->cmb_UserName->currentIndex());
 }
 
 void MainWindow::UserChanged()
